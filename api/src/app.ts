@@ -1,15 +1,18 @@
-import express, { response } from 'express';
+import 'reflect-metadata';
+import express from 'express';
+
+import './database';
 
 const app = express();
 const port = 8000;
 
-app.get('/', (_req, res) => {
-  return res.json({ message: 'Hello, world!' });
-});
+import middlewares from './middlewares'
+import routes from './routes';
+import handlers from './handlers';
 
-app.post('/', (_req, res) => {
-  return res.json({ message: 'Os dados foram salvos com sucesso.' });
-});
+middlewares.init(app);
+routes.init(app);
+handlers.init(app);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
