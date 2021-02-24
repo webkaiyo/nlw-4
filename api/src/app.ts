@@ -3,11 +3,11 @@ import express, { response } from 'express';
 const app = express();
 const port = 8000;
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   return res.json({ message: 'Hello, world!' });
 });
 
-app.post('/', (req, res) => {
+app.post('/', (_req, res) => {
   return res.json({ message: 'Os dados foram salvos com sucesso.' });
 });
 
