@@ -1,14 +1,14 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { getRepository } from 'typeorm';
+import { NextFunction, Request, Response, Router } from 'express';
+import { getCustomRepository } from 'typeorm';
 
-import { User } from '../models/User';
 import { AppError } from '../errors';
+import UsersRepository from '../repositories/UsersRepository';
 
 const router = Router();
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const { name, email } = req.body;
-  const users = getRepository(User);
+  const users = getCustomRepository(UsersRepository);
 
   if (await users.findOne({ email })) {
     return next(new AppError(400, 'User already exists'));
@@ -17,7 +17,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const user = users.create({ name, email });
   await users.save(user);
 
-  return res.json(user);
+  return res.status(201).json(user);
 })
 
 export default {
